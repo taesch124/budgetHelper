@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 
 import BudgetListItem from './BudgetListItem';
+import BudgetItemFormModal from './Modals/BudgetItemFormModal';
 
 import Grid from '@material-ui/core/Grid';
 import List from '@material-ui/core/List';
@@ -14,7 +15,8 @@ class BudgetItemsContainer extends Component {
         super(props);
 
         this.state = {
-            budgetItems: []
+            budgetItems: [],
+            budgetItemModalOpen: false,
         }
     }
 
@@ -28,7 +30,7 @@ class BudgetItemsContainer extends Component {
         })
         .catch(error => {
             console.error(error);
-        })
+        });
     }
     
     render() {
@@ -39,7 +41,7 @@ class BudgetItemsContainer extends Component {
                 </Grid>
                 <Grid item xs={12}>
                     {/*Placeholder for icons to add/remove items*/}
-                    <AddIcon color="primary"/>
+                    <AddIcon className="clickable" color="primary" onClick={this.state.budgetItemModalOpen ? null : this.toggleBudgetItemModal} />
                 </Grid>
                 <Grid item xs={12}>
                     {this.state.budgetItems.length > 0 ?
@@ -56,8 +58,18 @@ class BudgetItemsContainer extends Component {
                         <Typography variant="h5">No items yet, add one first!</Typography>
                     }
                 </Grid>
+                    <BudgetItemFormModal 
+                        open={this.state.budgetItemModalOpen} 
+                        toggleBudgetItemModal={this.toggleBudgetItemModal}
+                    /> 
             </Grid>
         )
+    }
+
+    toggleBudgetItemModal = () => {
+        this.setState({
+            budgetItemModalOpen: !this.state.budgetItemModalOpen
+        });
     }
 }
 

@@ -4,10 +4,21 @@ import moment from 'moment';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import { Typography } from '@material-ui/core';
+import { withStyles } from '@material-ui/core/styles';
 
 import './styles/BudgetListItem.css';
 
+const styles = {
+    income: {
+        color: '#6fbf73'
+    },
+    expense: {
+        color: 'rgb(223, 97, 97)'
+    }
+}
+
 function BudgetListItem(props) {
+    const {classes} = props;
     let item = props.budgetItem;
     return (
         <Paper color="secondary" elevation={1} className="budget-list-item">
@@ -18,7 +29,7 @@ function BudgetListItem(props) {
                     <Typography variant="body1">Frequency: {item.payFrequency}</Typography>
                     <Typography 
                         variant="body1" 
-                        className={item.incomeFlag ? 'income' : 'expense'}
+                        className={item.incomeFlag ? classes.income : classes.expense}
                     >Amount: ${item.amount.toFixed(2)}
                     </Typography>
                 </Grid>
@@ -27,4 +38,4 @@ function BudgetListItem(props) {
     )
 }
 
-export default BudgetListItem;
+export default withStyles(styles)(BudgetListItem);
