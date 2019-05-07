@@ -29,6 +29,17 @@ router.post('/add-test', async (req, res) => {
     }
 });
 
+router.post('/add-item', async (req, res) => {
+    let result = {};
+    try {
+        result = await budgetItemController.addBudgetItem(req.body);
+        return res.send(result);
+    } catch(err) {
+        result = {error: true, message: err};
+        return res.send(result);
+    }
+});
+
 router.get('/pay-frequencies', async (req, res) => {
     let result = {};
     try {

@@ -21,16 +21,7 @@ class BudgetItemsContainer extends Component {
     }
 
     componentWillMount() {
-        axios.get('/api/budget/budget-items')
-        .then(response => {
-            console.log(response.data);
-            this.setState({
-                budgetItems: response.data
-            })
-        })
-        .catch(error => {
-            console.error(error);
-        });
+        this.getBudgetItems();
     }
     
     render() {
@@ -61,6 +52,7 @@ class BudgetItemsContainer extends Component {
                     <BudgetItemFormModal 
                         open={this.state.budgetItemModalOpen} 
                         toggleBudgetItemModal={this.toggleBudgetItemModal}
+                        getBudgetItems={this.getBudgetItems}
                     /> 
             </Grid>
         )
@@ -69,6 +61,19 @@ class BudgetItemsContainer extends Component {
     toggleBudgetItemModal = () => {
         this.setState({
             budgetItemModalOpen: !this.state.budgetItemModalOpen
+        });
+    }
+
+    getBudgetItems = () => {
+        axios.get('/api/budget/budget-items')
+        .then(response => {
+            console.log(response.data);
+            this.setState({
+                budgetItems: response.data
+            })
+        })
+        .catch(error => {
+            console.error(error);
         });
     }
 }

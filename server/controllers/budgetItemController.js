@@ -28,6 +28,24 @@ async function getPayFrequencies() {
     }
 }
 
+async function addBudgetItem(itemData) {
+    try {
+        let budgetItem = new BudgetItem(itemData);
+
+        BudgetItem.create(budgetItem)
+        .then(result => {
+            return {error: false, data: budgetItem};
+        })
+        .catch(error => {
+            return {error: true, data: null, message: error};
+        })
+    }
+    catch(error) {
+        return {error: true, data: null, message: error};
+    }
+    
+}
+
 async function addExampleItem() {
     let item = {
         title: "Car",
@@ -55,6 +73,7 @@ async function addExampleItem() {
 
 module.exports = {
     getBudgetItems: getBudgetItems,
+    addBudgetItem: addBudgetItem,
     addExampleItem: addExampleItem,
     getPayFrequencies: getPayFrequencies
 }

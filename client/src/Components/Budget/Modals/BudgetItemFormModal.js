@@ -15,7 +15,6 @@ class BudgetItemFormModal extends Component {
         super(props);
 
         this.state = {
-            open: false,
             title: '',
             nextPayDate: moment(new Date()).format('YYYY-MM-DD'),
             frequency: '',
@@ -84,6 +83,7 @@ class BudgetItemFormModal extends Component {
                             </Grid>
 
                             <Grid item xs={6} align="right">
+                                <Button onClick={this.handleSubmit} align="center">Submit</Button>
                                 <Button onClick={e => this.props.toggleBudgetItemModal()} align="center">Close</Button>
                             </Grid>
                             
@@ -102,7 +102,36 @@ class BudgetItemFormModal extends Component {
     }
 
     handleSubmit = (e) => {
-        
+        //TODO Run validations before sumitting
+        e.preventDefault();
+
+        let budgetItem = {
+            title: this.state.title,
+            nextPayDate: this.state.nextPayDate,
+            payFrequency: this.state.frequency,
+            amount: this.state.amount,
+            incomeFlag: false,
+        };
+
+        axios.post(
+            '/api/budget/add-item/',
+            budgetItem
+        )
+        .then(result => {
+            console.log('Budget Item saved');
+            this.setState({
+                title: '',
+                nextPayDate: moment(new Date()).format('YYYY-MM-DD'),
+                frequency: '',
+                amount: 0
+            });
+            this.props.toggleBudgetItemModal();
+            this.props.getBudgetItems();
+        })
+        .catch(error => {
+            console.error(error);
+        })
+
     }
 }
 
