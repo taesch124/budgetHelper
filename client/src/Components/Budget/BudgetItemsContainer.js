@@ -22,6 +22,7 @@ class BudgetItemsContainer extends Component {
 
     componentWillMount() {
         this.getBudgetItems();
+        this.getBudgetSchedule();
     }
     
     render() {
@@ -42,6 +43,7 @@ class BudgetItemsContainer extends Component {
                                     <BudgetListItem
                                         key={i}
                                         budgetItem={e}
+                                        deleteBudgetItem={this.deleteBudgetItem}
                                     />
                                 )
                             })}
@@ -67,14 +69,39 @@ class BudgetItemsContainer extends Component {
     getBudgetItems = () => {
         axios.get('/api/budget/budget-items')
         .then(response => {
-            console.log(response.data);
             this.setState({
                 budgetItems: response.data
-            })
+            });
         })
         .catch(error => {
             console.error(error);
         });
+    }
+
+    getBudgetSchedule = () => {
+        axios.get('/api/budget/schedule')
+        .then(response => {
+            console.log(response.data);
+        })
+        .catch(error => {
+            console.error(error);
+        })
+    }
+
+    deleteBudgetItem = (id) => {
+        console.log(id);
+        axios.delete('/api/budget/delete-item/' + id)
+        .then(response => {
+            if(response.data.error) {
+                console.error(response.data.error);
+                return;
+            }
+
+            this.getBudgetItems();
+        })
+        .catch(error => {
+            console.error(error);
+        })
     }
 }
 

@@ -18,7 +18,7 @@ function handleMonthlyPayment(payDate) {
     let currentDate = moment();
     while(payDate < currentDate) {
         payDate.add(1, 'M');
-        console.log(payDate);
+        //console.log(payDate);
     }
 
     return payDate;
@@ -29,6 +29,14 @@ function handleWeeklyPayment(payDate) {
     while(payDate < currentDate) {
         payDate.add(1, 'w');
     }
+    return payDate;
+}
+
+function findMonthlyPayDateBefore(payDate, checkDate) {
+    while(payDate > checkDate) {
+        payDate.subtrct(1, 'M');
+    }
+
     return payDate;
 }
 

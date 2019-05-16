@@ -40,6 +40,28 @@ router.post('/add-item', async (req, res) => {
     }
 });
 
+router.delete('/delete-item/:itemId', async (req, res) => {
+    let result = {};
+    try {
+        result = await budgetItemController.deleteBudgetItem(req.params.itemId);
+        return res.send(result);
+    } catch(err) {
+        result = {error: true, message: err};
+        return res.send(result);
+    }
+});
+
+router.get('/schedule', async (req, res) => {
+    let result = {};
+    try {
+        result = budgetItemController.getBudgetSchedule();
+        return res.send(result);
+    } catch(err) {
+        result = {error: true, message: err};
+        return res.send(result);
+    }
+})
+
 router.get('/pay-frequencies', async (req, res) => {
     let result = {};
     try {
@@ -49,6 +71,6 @@ router.get('/pay-frequencies', async (req, res) => {
         result = {error: true, message: err};
         return res.send(result);
     }
-})
+});
 
 module.exports = router;

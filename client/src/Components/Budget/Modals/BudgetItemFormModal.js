@@ -6,6 +6,8 @@ import {Dialog, DialogActions, DialogContent, DialogTitle, DialogContentText} fr
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import Checkbox from '@material-ui/core/Checkbox';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 import './../styles/BudgetItemFormModal.css';
 
@@ -18,7 +20,8 @@ class BudgetItemFormModal extends Component {
             title: '',
             nextPayDate: moment(new Date()).format('YYYY-MM-DD'),
             frequency: '',
-            amount: 0
+            amount: 0,
+            incomeFlag: false
         }
     }
 
@@ -30,7 +33,7 @@ class BudgetItemFormModal extends Component {
                     aria-labelledby="form-dialog-title"
                 >
                     <DialogContent className="dialog">
-                        <Grid container spacing={12} justify="center">
+                        <Grid container spacing={16} justify="center">
                             <Grid item xs={12}>
                                 <DialogTitle align="center" id="budget-item-form-title">New Budget Item</DialogTitle>
                             </Grid>
@@ -82,6 +85,20 @@ class BudgetItemFormModal extends Component {
                                 />
                             </Grid>
 
+                            <Grid item xs={12} align="center">
+                                <FormControlLabel
+                                    control={
+                                        <Checkbox
+                                            checked={this.state.incomeFlag}
+                                            onChange={e => this.handleCheckboxChange(e, !this.state.incomeFlag)}
+                                            name="incomeFlag"
+                                            value="incomeFlag"
+                                        />
+                                    }
+                                    label="Income"
+                                />
+                            </Grid>
+
                             <Grid item xs={6} align="right">
                                 <Button onClick={this.handleSubmit} align="center">Submit</Button>
                                 <Button onClick={e => this.props.toggleBudgetItemModal()} align="center">Close</Button>
@@ -98,6 +115,12 @@ class BudgetItemFormModal extends Component {
         console.log(this.state.title);
         this.setState({
             [e.target.name]: e.target.value,
+        });
+    }
+
+    handleCheckboxChange = (e, checked) => {
+        this.setState({
+            [e.target.name]: checked,
         });
     }
 
